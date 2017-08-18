@@ -9,16 +9,31 @@ using System.Windows.Forms;
 
 static public class Input
 {
-	
-	static public void Init( Form  pForm ) {
+	public enum KeyAttack
+    {
+        Up,
+        Down,
+        Pressed
+    }
+
+    private struct KeyEntry
+    {
+        public Keys      key;
+        public KeyAttack attack;
+    }
+
+	static public void Init( Form  pForm )
+    {
 		Key.Init( pForm );
 	}
 
     static public void Resolve()
     {
-        foreach (KeyValuePair<Keys, Action> keyAction in functions)
-            if (Key.Pressed(keyAction.Key))
-                keyAction.Value();
+        foreach (KeyValuePair<KeyEntry, Action> keyAction in functions)
+        {
+            if (keyAction.Key.attack == KeyAttack.Down)
+
+        }
     }
 
     static public void Bind(Keys key, Action func)
@@ -49,7 +64,7 @@ static public class Input
         }
     }
 
-    static private Dictionary<Keys, Action> functions = new Dictionary<Keys, Action>();
+    static private Dictionary<KeyEntry, Action> functions = new Dictionary<KeyEntry, Action>();
 
     static public class Key {
 

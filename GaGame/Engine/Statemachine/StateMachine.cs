@@ -4,7 +4,7 @@ using GaGame;
 
 public class StateMachine
 {
-    public enum Command
+    private enum Command
     {
         Pauze,
         Score,
@@ -42,9 +42,10 @@ public class StateMachine
     Dictionary<StateTransition, State> transitions;
     public State CurrentState { get; private set; }
 
-    public StateMachine(State startState)
+    public StateMachine()
     {
-        CurrentState = startState;
+        CurrentState = pauzeState;
+        CurrentState.Activate();
 
         transitions = new Dictionary<StateTransition, State>
         {
@@ -58,25 +59,34 @@ public class StateMachine
         };
     }
 
-    private State GetNext(Command command)
+    private void MoveNext(Command command)
     {
         StateTransition transition = new StateTransition(CurrentState, command);
-        State NextState = null;
+        State nextState = null;
 
-        if (!transitions.TryGetValue(transition, out NextState))
+        if (!transitions.TryGetValue(transition, out nextState))
+        {
             System.Console.WriteLine("Invalid Transition: " + CurrentState + " -> " + command);
-        return NextState;
+            return;
+        }
+
+        CurrentState.DeActivate();
+        CurrentState = nextState;
+        CurrentState.Activate();
     }
 
-    public void MoveNext(Command command)
+    public void Pauze()
     {
-        State nextState = GetNext(command);
+        MoveNext(Command.Pauze);
+    }
 
-        if (nextState != null)
-        {
-            CurrentState.DeActivate();
-            CurrentState = nextState;
-            CurrentState.Activate();
-        }
+    public void Score()
+    {
+        MoveNext(Command.Score);
+    }
+
+    public void Reset()
+    {
+        MoveNext(Command.Reset);
     }
 }

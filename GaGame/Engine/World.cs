@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace GaGame
 {
-    class World
+    public class World
     {
         private List<GameObject> _children;
         private List<GameObject> _allObjects;

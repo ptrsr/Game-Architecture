@@ -43,6 +43,13 @@ public class Game
         _world = new World();
         ServiceLocator.Provide(_world);
 
+        // init statemachine
+        _stateMachine = new StateMachine();
+        ServiceLocator.Provide(_stateMachine);
+
+        Input.Bind(Keys.Space, _stateMachine.Pauze);
+        Input.Bind(Keys.P,     _stateMachine.Pauze);
+
         // ball
         GameObject ball = new GameObject("ball", Tag.Ball);
         ball.AddComponent<BallComponent>();
@@ -78,9 +85,8 @@ public class Game
 			Application.DoEvents(); // empty forms event queue
 
 			// can close
-			if( Input.Key.Enter( Keys.Escape ) ) {
+			if( Input.Key.Enter(Keys.Escape))
 				running = false;
-			}
 			
 			_window.Refresh(); // use refresh for a frame based update, async
 
@@ -91,13 +97,7 @@ public class Game
 
 	public void Update( Graphics graphics )
 	{
-        Input.Resolve();
-
-        Time.Update();
-        FrameCounter.Update();
-
-        _world.Update(Time.Step);
-        _world.Render(graphics);
+        _stateMachine.CurrentState.Update(graphics);
 
         int milisec = (int)((1.0f / _fps) * 1000);
 

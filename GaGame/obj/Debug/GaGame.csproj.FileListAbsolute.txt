@@ -14,3 +14,11 @@ C:\Users\Ruud\Desktop\Game Architecture\GaGame\obj\Debug\Window.resources
 C:\Users\Ruud\Desktop\Game Architecture\GaGame\obj\Debug\GaGame.csproj.GenerateResource.Cache
 C:\Users\Ruud\Desktop\Game Architecture\GaGame\bin\Debug\GaGame.exe
 C:\Users\Ruud\Desktop\Game Architecture\GaGame\bin\Debug\GaGame.pdb
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\bin\Debug\GaGame.exe.config
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\obj\Debug\GaGame.exe
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\obj\Debug\GaGame.pdb
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\obj\Debug\GaGame.csprojResolveAssemblyReference.cache
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\obj\Debug\Window.resources
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\obj\Debug\GaGame.csproj.GenerateResource.Cache
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\bin\Debug\GaGame.exe
+C:\Users\Ruud\Huiswerk\GIT\Game Architecture\GaGame\bin\Debug\GaGame.pdb
