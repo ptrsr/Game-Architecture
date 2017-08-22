@@ -31,7 +31,14 @@ static public class Input
     {
         foreach (KeyValuePair<KeyEntry, Action> keyAction in functions)
         {
-            if (keyAction.Key.attack == KeyAttack.Down)
+            if (
+                keyAction.Key.attack == KeyAttack.Down && Key.Enter(keyAction.Key.key) ||
+                keyAction.Key.attack == KeyAttack.Pressed && Key.Pressed(keyAction.Key.key)
+               )
+            {
+
+
+            }
 
         }
     }
