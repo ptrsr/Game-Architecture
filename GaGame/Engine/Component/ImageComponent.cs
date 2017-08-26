@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace GaGame
 {
@@ -11,19 +12,15 @@ namespace GaGame
     {
         protected Image _image = null;
 
-        protected override void Start()
-        {
-            Parent.OnRender += Render;
-        }
-
         public void SetImage(string filename)
         {
             _image = Image.FromFile(filename);
         }
 
-        public virtual void Render(Graphics graphics, Vec2 pos)
+        public override void OnRender(Graphics graphics, Vec2 pos)
         {
-            graphics.DrawImage(_image, pos.X, pos.Y);
+            Debug.Assert(_image != null);
+            graphics.DrawImage(_image, pos.X - _image.Width / 2, pos.Y - _image.Height / 2);
         }
 
 

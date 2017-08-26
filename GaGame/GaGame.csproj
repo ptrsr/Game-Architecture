@@ -49,22 +49,23 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoPaddle.cs" />
-    <Compile Include="Booster.cs" />
+    <Compile Include="Game\Component\AutoPaddleComponent.cs" />
+    <Compile Include="Engine\Component\BoxColliderComponent.cs" />
+    <Compile Include="Engine\EventQueue.cs" />
     <Compile Include="Engine\ServiceLocator.cs" />
     <Compile Include="Engine\Statemachine\State.cs" />
     <Compile Include="Engine\Statemachine\StateMachine.cs" />
+    <Compile Include="Game\Component\BoostComponent.cs" />
+    <Compile Include="Game\Events.cs" />
+    <Compile Include="Game\Settings.cs" />
     <Compile Include="Game\Tags.cs" />
     <Compile Include="Game\States\PauzeState.cs" />
     <Compile Include="Game\States\PlayState.cs" />
-    <Compile Include="Game\States\ResetState.cs" />
-    <Compile Include="Game\States\ScoreState.cs" />
     <Compile Include="Game\Component\BallComponent.cs" />
     <Compile Include="Engine\Component\Component.cs" />
     <Compile Include="Engine\Component\ImageComponent.cs" />
-    <Compile Include="CurvedPaddle.cs" />
     <Compile Include="Engine\World.cs" />
-    <Compile Include="FrameCounter.cs" />
+    <Compile Include="Engine\FrameCounter.cs" />
     <Compile Include="Engine\Game.cs" />
     <Compile Include="Engine\GameObject.cs" />
     <Compile Include="Auxilary\Input.cs" />

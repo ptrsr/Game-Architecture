@@ -6,15 +6,11 @@ public class StateMachine
 {
     private enum Command
     {
-        Pauze,
-        Score,
-        Reset,
+        Pauze
     }
 
-    private static State playState = new PlayState();
-    private static State scoreState = new ScoreState();
+    private static State playState  = new PlayState();
     private static State pauzeState = new PauzeState();
-    private static State resetState = new ResetState();
 
     class StateTransition
     {
@@ -39,8 +35,8 @@ public class StateMachine
         }
     }
 
-    Dictionary<StateTransition, State> transitions;
     public State CurrentState { get; private set; }
+    private Dictionary<StateTransition, State> transitions;
 
     public StateMachine()
     {
@@ -51,11 +47,6 @@ public class StateMachine
         {
             { new StateTransition(playState,  Command.Pauze), pauzeState },
             { new StateTransition(pauzeState, Command.Pauze), playState  },
-
-            { new StateTransition(playState,  Command.Reset), resetState },
-            { new StateTransition(pauzeState, Command.Reset), resetState },
-
-            { new StateTransition(resetState,  Command.Reset), playState },
         };
     }
 
@@ -78,15 +69,5 @@ public class StateMachine
     public void Pauze()
     {
         MoveNext(Command.Pauze);
-    }
-
-    public void Score()
-    {
-        MoveNext(Command.Score);
-    }
-
-    public void Reset()
-    {
-        MoveNext(Command.Reset);
     }
 }

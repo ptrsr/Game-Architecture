@@ -10,26 +10,25 @@ using GaGame;
 
 public class PaddleComponent : Component
 {
-	protected Vec2 _velocity = null;
-	
-	protected BallComponent _ball = null;
-
-	public const float _Speed = 200.0f;
+    // settings
+	protected Vec2 _velocity;
     protected Vec2 _size;
+    protected float _speed;
 	
-	public PaddleComponent()
-	{
-		_velocity = new Vec2( 0, 0 );
-	}
-
     protected override void Start()
     {
+        // apply settings
+        _velocity = new Vec2(0, 0);
+        _speed = ServiceLocator.Locate<Settings>().Paddle_Speed;
+
         ImageComponent image = Parent.AddComponent<ImageComponent>();
         image.SetImage("paddle.png");
         _size = image.Size;
 
-        _ball = FindObjectByTag(Tags.Tag.Ball).GetComponent<BallComponent>();
+        // add collider
+        Parent.AddComponent<BoxColliderComponent>();
 
+        // bind controls
         Input.Bind(Keys.Up, MoveUp);
         Input.Bind(Keys.Down, MoveDown);
     }
@@ -38,16 +37,6 @@ public class PaddleComponent : Component
     {
 		// move
 		Position.Add( _velocity * step );
-		
-		// collisions & resolve
-		if( Intersects( _ball.Position, _ball.Size ) ) {
-			if(_ball.Velocity.X > 0 ) {
-                _ball.Position.X = Position.X - _ball.Size.X;
-			} else if(_ball.Velocity.X < 0 ) {
-                _ball.Position.X = Position.X + _size.X;
-			}
-            _ball.Velocity.X = -_ball.Velocity.X;
-		}
 		
 		// collisions
 		if(Position.Y < 0 ) Position.Y = 0;
@@ -58,32 +47,13 @@ public class PaddleComponent : Component
 
     private void MoveUp()
     {
-        _velocity.Y = -_Speed;
+        _velocity.Y = -_speed;
     }
 
     private void MoveDown()
     {
-        _velocity.Y = _Speed;
+        _velocity.Y = _speed;
     }
-
-	public bool Intersects( Vec2 otherPosition, Vec2 otherSize ) {
-		return
-		    this.Position.X < otherPosition.X+otherSize.X && this.Position.X + _size.X > otherPosition.X &&
-		    this.Position.Y < otherPosition.Y+otherSize.Y && this.Position.Y + _size.Y > otherPosition.Y;
-	}
-	
-	public Vec2 Center {
-		get {
-			return Position + 0.5f * _size;
-		}
-	}	
-
-	public BallComponent Ball
-    {
-        get { return _ball;  }
-        set { _ball = value; }
-    }
-
 }
 
 

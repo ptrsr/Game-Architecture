@@ -9,13 +9,23 @@ namespace GaGame
 {
     class PauzeState : State
     {
+        public override void Activate()
+        {
+            base.Activate();
+            Time.Update();
+            Time.Pauze();
+        }
+
         public override void Update(Graphics graphics)
         {
             Input.Resolve();
-
-            FrameCounter.Update();
-
+            _eventQueue.Resolve();
             _world.Render(graphics);
+        }
+
+        public override void DeActivate()
+        {
+            Time.Continue();
         }
     }
 }

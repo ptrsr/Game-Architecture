@@ -20,6 +20,12 @@ static public class Input
     {
         public Keys      key;
         public KeyAttack attack;
+
+        public KeyEntry(Keys pKey, KeyAttack pAttack)
+        {
+            key = pKey;
+            attack = pAttack;
+        }
     }
 
 	static public void Init( Form  pForm )
@@ -35,39 +41,38 @@ static public class Input
                 keyAction.Key.attack == KeyAttack.Down && Key.Enter(keyAction.Key.key) ||
                 keyAction.Key.attack == KeyAttack.Pressed && Key.Pressed(keyAction.Key.key)
                )
-            {
-
-
-            }
-
+                keyAction.Value();
         }
     }
 
-    static public void Bind(Keys key, Action func)
+    static public void Bind(Keys key, Action func, KeyAttack attack = KeyAttack.Pressed)
     {
-        Action keyAction;
+        Action action;
+        KeyEntry entry = new KeyEntry(key, attack);
 
-        if (functions.TryGetValue(key, out keyAction))
+        if (functions.TryGetValue(entry, out action))
         {
-            keyAction += func;
-            functions[key] = keyAction;
+            action += func;
+            functions[entry] = action;
         }
         else
-            functions.Add(key, func);
+            functions.Add(entry, func);
     }
 
-    static public void UnBind(Keys key, Action func)
+    static public void UnBind(Keys key, Action func, KeyAttack attack = KeyAttack.Pressed)
     {
-        Action keyAction;
+        Action action;
+        KeyEntry entry = new KeyEntry(key, attack);
 
-        if (functions.TryGetValue(key, out keyAction))
+
+        if (functions.TryGetValue(entry, out action))
         {
-            keyAction -= func;
+            action -= func;
 
-            if (keyAction == null)
-                functions.Remove(key);
+            if (action == null)
+                functions.Remove(entry);
             else
-                functions[key] = keyAction;
+                functions[entry] = action;
         }
     }
 

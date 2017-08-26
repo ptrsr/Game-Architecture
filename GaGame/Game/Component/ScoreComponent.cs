@@ -12,12 +12,16 @@ public class ScoreComponent : ImageComponent
 {
     private uint _score = 0;
 
-	public ScoreComponent()
-	{
+    protected override void Start()
+    {
         _image = Image.FromFile("digits.png");
-	}
 
-    public override void Render(Graphics graphics, Vec2 pos)
+        //setup event handling
+        Events.score += IncScore;
+        Events.reset += Reset;
+    }
+
+    public override void OnRender(Graphics graphics, Vec2 pos)
     {
         int digits = 2;
         string score = "000" + _score.ToString();
@@ -26,13 +30,22 @@ public class ScoreComponent : ImageComponent
         { // 3 digits left to right
             int digit = score[score.Length - digits + d] - 48; // '0' => 0 etc
             Rectangle rect = new Rectangle(digit * _image.Width / 10, 0, _image.Width / 10, _image.Height);
-            graphics.DrawImage(_image, Position.X + d * _image.Width / 10, Position.Y, rect, GraphicsUnit.Pixel);
+            graphics.DrawImage(_image, (Position.X + d * _image.Width / 10) - rect.Width, Position.Y - rect.Height / 2, rect, GraphicsUnit.Pixel);
         }
     }
 
-    public void IncScore()
+    private void IncScore(Tags.Tag tag)
     {
-        _score++;
+        if (tag == Parent.Tag)
+            _score++;
+
+        Debug.Assert(_score >= 0 && _score < 100);
+    }
+
+    private void Reset(bool hard)
+    {
+        if (hard)
+            _score = 0;
     }
 
     public uint Score

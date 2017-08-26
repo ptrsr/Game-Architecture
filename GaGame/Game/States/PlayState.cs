@@ -17,12 +17,16 @@ namespace GaGame
 
         public override void Update(Graphics graphics)
         {
+            Time.Update();
             Input.Resolve();
 
-            Time.Update();
             FrameCounter.Update();
 
             _world.Update(Time.Step);
+            _world.ResolveCollisions();
+
+            _eventQueue.Resolve();
+
             _world.Render(graphics);
         }
     }

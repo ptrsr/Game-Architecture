@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tags;
+using System.Drawing;
 
 namespace GaGame
 {
@@ -26,24 +27,18 @@ namespace GaGame
             Update(step);
         }
 
-        protected virtual void OnDetach() { }
+        public virtual void OnCollision(GameObject other) { }
+        public virtual void OnRender(Graphics graphics, Vec2 pos) { }
+
 
         public GameObject Parent
         {
             get { return _parent; }
             set
             {
-                if (_parent != null)
-                    OnDetach();
-
                 _started = false;
                 _parent = value;
             }
-        }
-
-        public GameObject FindObjectByTag(Tag tag)
-        {
-            return ServiceLocator.Locate<World>().AllObjects().Find(x => x.Tag == tag);
         }
 
         public Vec2 Position

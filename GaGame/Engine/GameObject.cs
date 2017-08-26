@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using Tags;
+using System.Diagnostics;
 
 namespace GaGame
 {
@@ -19,9 +20,7 @@ namespace GaGame
         private List<GameObject> _children  = null;
         private List<Component> _components = null;
 
-
-        public delegate void Renderer(Graphics graphics, Vec2 pos);
-        public Renderer OnRender = null;
+        private bool _active = true;
 
         public GameObject(string name, Tag tag = Tag.Null)
         {
@@ -34,11 +33,15 @@ namespace GaGame
             _pos  = new Vec2();
 
             _world = ServiceLocator.Locate<World>();
+            Debug.Assert(_world != null);
             _world.Add(this, true);
         }
 
         public void Update(float step)
         {
+            if (!_active)
+                return;
+
             for (int i = _components.Count - 1; i >= 0; i--)
                 _components[i].Execute(step);
 
@@ -48,11 +51,23 @@ namespace GaGame
 
         public void Render(Graphics graphics, Vec2 pos)
         {
-            if (OnRender != null)
-                OnRender(graphics, pos + _pos);
+            if (!_active)
+                return;
+
+            foreach (Component comp in _components)
+                comp.OnRender(graphics, pos + _pos);
 
             foreach (GameObject child in _children)
                 child.Render(graphics, pos + _pos);
+        }
+
+        public void OnCollision(GameObject other)
+        {
+            if (!_active)
+                return;
+
+            foreach (Component comp in _components)
+                comp.OnCollision(other);
         }
 
         public void Delete()
@@ -147,6 +162,12 @@ namespace GaGame
         public List<GameObject> Children
         {
             get { return _children; }
+        }
+
+        public bool Active
+        {
+            get { return _active;  }
+            set { _active = value; }
         }
 
         #endregion

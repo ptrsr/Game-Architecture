@@ -32,7 +32,22 @@ static public class Time
 		//Console.WriteLine( "Time "+Time.Step );
 	}
 	
-	static public float Now { // in secs
+    static public void Pauze()
+    {
+        stopwatch.Stop();
+    }
+
+    static public void Continue()
+    {
+        stopwatch.Start();
+    }
+
+    static public void Reset()
+    {
+        timeouts.Clear();
+    }
+
+    static public float Now { // in secs
 		get { return now; } // consistent time in all the game;
 	}
 
@@ -44,9 +59,9 @@ static public class Time
 		get { return step; } // consistent timeStep for all the game
 	}		
 	
-	static public void Timeout( string pName, float pInterval, EventHandler<TimeoutEvent> pHandler ) 
+	static public void Timeout( string name, float interval, Action func ) 
 	{
-		timeouts.Add( new TimeoutEvent( pName, pInterval, pHandler ) ); // 0.0f is fony
+		timeouts.Add( new TimeoutEvent(name, interval, func) ); // 0.0f is fony
 	}
 	
 	public class TimeoutEvent : IComparable 
@@ -54,21 +69,20 @@ static public class Time
 		private string name;
 		private float interval;
 		private float timeout;
-		private EventHandler<TimeoutEvent> handler;
+        private Action func;
 		
-		public TimeoutEvent( string pName, float pInterval, EventHandler<TimeoutEvent> pHandler) 
+		public TimeoutEvent( string name, float interval, Action func) 
 		{
-			name = pName;
-			interval = pInterval;
-			timeout = Time.Now + interval;
-			handler = pHandler;
-			//private void handler( Object sender,  Time.TimeoutEvent timeout ); // signature must match
+			this.name = name;
+			this.interval = interval;
+            timeout = Time.Now + this.interval;
+			this.func = func;
 		}
 		
 		public bool Raise()
 		{
 			if( timeout <= Time.Now ) {
-				handler( this, this );
+                func();
 				return true;
 			} 
 			return false;

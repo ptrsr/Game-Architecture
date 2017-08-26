@@ -10,15 +10,15 @@ using System.Windows.Forms;
 public class Window : Form
 {
 
-	private Game game;
+	private Game _game;
 	
-	public Window( Game aGame )
+	public Window( Game game, int width, int height )
 	{
-		game = aGame;
+		_game = game;
 		BackColor = System.Drawing.Color.Black;
 		SuspendLayout();
 			Name = "GaGame";
-			ClientSize = new System.Drawing.Size( 640, 480 );
+			ClientSize = new System.Drawing.Size( width, height );
 			DoubleBuffered = true; // avoid flickering
 		ResumeLayout();	
 		Show();
@@ -28,7 +28,7 @@ public class Window : Form
 	override
 	protected void OnPaint( PaintEventArgs e )  // adapter for caching repaints for updates
 	{
-		game.Update( e.Graphics );
+		_game.Update( e.Graphics );
 	}
 			
 }

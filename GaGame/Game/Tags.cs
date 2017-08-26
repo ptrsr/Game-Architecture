@@ -15,6 +15,8 @@ namespace Tags
         Ball,
 
         Score1,
-        Score2
+        Score2,
+
+        Booster
     }
 }
